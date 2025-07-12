@@ -2,6 +2,12 @@ import { Stack, SplashScreen } from "expo-router";
 import "./global.css";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import useAuthStore from "@/store/auth.store";
+
+
+
+
+
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 
@@ -15,6 +21,14 @@ export default function RootLayout() {
     "Quicksand-Light": require("../assets/fonts/Quicksand-Light.ttf"),
   });
 
+  const { isLoggedIn, fetchAuthenticatedUser } = useAuthStore();
+
+  useEffect(() => {
+    fetchAuthenticatedUser()
+  }, []);
+
+
+
   useEffect(() => {
     if (error) throw error;
     if (fontsLoaded) {
@@ -22,8 +36,8 @@ export default function RootLayout() {
     }
 
   }, [fontsLoaded, error]);
-   
 
+  if (!fontsLoaded || isLoggedIn) return null;
   // Render the layout.
   return <Stack screenOptions={{ headerShown: false }} />;
-}
+};

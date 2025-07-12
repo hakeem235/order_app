@@ -3,6 +3,7 @@ import { View, Text, Alert } from 'react-native'
 import CustomInput from '../components/CustomInput'
 import CustomButton from '../components/CustomButton'
 import { useState } from 'react'
+import { signIn } from '@/lib/appwrite'
 const SingIn = () => {
 const [isSummitting, setIsSubmitting] = useState(false);
 const [form, setForm] = useState({
@@ -11,13 +12,13 @@ const [form, setForm] = useState({
 })
 
 const submit = async () => {
-  if(!form.email || !form.password) return Alert.alert('Erorr', 'Please enter valid email and password' )
+  const { email, password } = form
+  if(!email || !password) 
+    
     setIsSubmitting(true);
 
   try {
-     // Call Appwrite Sign Function 
-
-     Alert.alert('Success', 'User signed in successfully');
+     await signIn({ email, password })
      router.replace('/');
   } catch (error: any) {
     Alert.alert('Error', error.message);

@@ -3,6 +3,7 @@ import { View, Text, Alert } from 'react-native'
 import CustomInput from '../components/CustomInput'
 import CustomButton from '../components/CustomButton'
 import { useState } from 'react'
+import { createUser } from '@/lib/appwrite'
 const SingUp = () => {
   const [isSummitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
@@ -12,13 +13,12 @@ const SingUp = () => {
   })
 
   const submit = async () => {
-    if (!form.name || !form.email || !form.password) return Alert.alert('Erorr', 'Please enter valid email and password')
+    const { name, email, password } = form
+    if (!name || !email || !password) return Alert.alert('Erorr', 'Please enter valid email and password')
     setIsSubmitting(true);
 
     try {
-      // Call Appwrite SignUP Function 
-
-      Alert.alert('Success', 'User registered successfully');
+      await createUser({ email, password, name })
       router.replace('/');
     } catch (error: any) {
       Alert.alert('Error', error.message);
@@ -53,7 +53,7 @@ const SingUp = () => {
 
       <View className='flex flex-row justify-center items-center mt-5 gap-2'>
         <Text className='base-regulat text-gray-100'>
-          alraedy have account? 
+          alraedy have account?
         </Text>
         <Link href='/sing-in' className='base-bold text-primary'>
           Sign in

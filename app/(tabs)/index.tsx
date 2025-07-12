@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Fragment } from "react";
 import cn from 'clsx'
 import CartButton from "../components/CartButton";
+
 export default function Page() {
   return (
     <SafeAreaView className="flex-1 bg-white">
